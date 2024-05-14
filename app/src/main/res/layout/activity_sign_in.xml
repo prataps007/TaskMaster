@@ -49,7 +49,8 @@
             android:layout_marginEnd="@dimen/authentication_screen_til_marginStartEnd"
             android:layout_marginTop="@dimen/authentication_screen_content_marginTop"
             android:elevation="@dimen/card_view_elevation"
-            app:cardCornerRadius="@dimen/card_view_corner_radius">
+            app:cardCornerRadius="@dimen/card_view_corner_radius"
+            android:background="@android:color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,7 +67,7 @@
                     android:layout_marginEnd="@dimen/authentication_screen_til_marginStartEnd">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/et_email"
+                        android:id="@+id/et_email_sign_in"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email"
@@ -82,7 +83,7 @@
                     android:layout_marginEnd="@dimen/authentication_screen_til_marginStartEnd">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/et_password"
+                        android:id="@+id/et_password_sign_in"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/password"

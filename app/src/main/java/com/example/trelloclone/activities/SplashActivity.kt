@@ -8,6 +8,7 @@ import android.os.Handler
 import android.view.WindowManager
 import android.widget.TextView
 import com.example.trelloclone.R
+import com.example.trelloclone.firebase.FireStoreClass
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,9 +26,17 @@ class SplashActivity : AppCompatActivity() {
         tv_app_name.typeface = typeFace
 
         Handler().postDelayed({
+
+            var currentUserID = FireStoreClass().getCurrentUserId()
+
+            if(currentUserID.isNotEmpty()){
+                startActivity(Intent(this,MainActivity::class.java))
+            }else{
+                startActivity(Intent(this,IntroActivity::class.java))
+            }
+
             // Start the main activity after the specified duration
-            val mainIntent = Intent(this@SplashActivity, IntroActivity::class.java)
-            startActivity(mainIntent)
+
             finish()
         }, 2500.toLong())
 

@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.trelloclone.R
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -36,9 +37,9 @@ open class BaseActivity : AppCompatActivity() {
         mProgressDialog.dismiss()
     }
 
-//    fun getCurrentUserID():String{
-//        return FirebaseAuth.getInstance().currentUser!!.uid
-//    }
+    fun getCurrentUserID():String{
+        return FirebaseAuth.getInstance().currentUser!!.uid
+    }
 
     fun doubleBackToExit(){
         if(doubleBackToExitPressedOnce){
