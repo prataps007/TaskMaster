@@ -44,17 +44,17 @@ class MyProfileActivity : BaseActivity() {
         val iv_profile_user_image : CircleImageView = findViewById(R.id.iv_profile_user_image)
 
         iv_profile_user_image.setOnClickListener{
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-            == PackageManager.PERMISSION_GRANTED){
+//            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+//            == PackageManager.PERMISSION_GRANTED){
                 // TODO Show Image Chooser
                 Constants.showImageChooser(this)
-            }else{
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    Constants.READ_STORAGE_PERMISSION_CODE
-                )
-            }
+//            }else{
+//                ActivityCompat.requestPermissions(
+//                    this,
+//                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+//                    Constants.READ_STORAGE_PERMISSION_CODE
+//                )
+//            }
         }
 
         val btn_update : Button = findViewById(R.id.btn_update)
@@ -83,7 +83,7 @@ class MyProfileActivity : BaseActivity() {
             }
         }else{
             Toast.makeText(
-                this,"Oops, you just denied the permission for storage. You can allow it from settings",Toast.LENGTH_LONG
+                this,"Storage permission denied. You can allow it from settings",Toast.LENGTH_LONG
             ).show()
         }
     }
@@ -97,13 +97,12 @@ class MyProfileActivity : BaseActivity() {
     private fun getFileExtension(uri: Uri):String?{
         return MimeTypeMap.getSingleton()
             .getExtensionFromMimeType(contentResolver.getType(uri!!))
-
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE_REQUEST_CODE && data!!.data!=null){
+        if(resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE_REQUEST_CODE && data?.data!=null){
             mSelectedImageFileUri = data.data
 
             try {
@@ -183,8 +182,9 @@ class MyProfileActivity : BaseActivity() {
             anyChangesMade=true
         }
 
-        if(anyChangesMade)
-            FireStoreClass().updateUserProfileData(this,userHashMap)
+        if(anyChangesMade) {
+            FireStoreClass().updateUserProfileData(this, userHashMap)
+        }
     }
 
     private fun uploadUserImage(){

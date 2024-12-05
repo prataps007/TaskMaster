@@ -59,6 +59,9 @@
     <string name="str_select_member">Select Member</string>
     <string name="default_notification_channel_id">project_notification_channel_id</string>
     <string name="search_hint">Search</string>
+    <string name="select_board_background">Board Background</string>
+    <string name="board_background">Background</string>
+    <string name="photo">Photo</string>
 
 
 </resources>

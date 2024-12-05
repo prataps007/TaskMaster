@@ -7,4 +7,10 @@
         android:orderInCategory="100"
         android:title="@string/members"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_bg"
+        android:orderInCategory="100"
+        android:title="@string/board_background"
+        app:showAsAction="never"/>
 </menu>

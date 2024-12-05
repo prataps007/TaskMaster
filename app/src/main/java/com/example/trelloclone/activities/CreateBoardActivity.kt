@@ -4,11 +4,17 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
@@ -34,6 +40,12 @@ class CreateBoardActivity : BaseActivity() {
 
     private var mBoardImageURL : String = ""
 
+//    private var mBoardBackgroundImageURL : String = ""
+//    private var mSelectedBackgroundImageUri: Uri? = null
+
+    private lateinit var imagePreview: ImageView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_board)
@@ -47,17 +59,9 @@ class CreateBoardActivity : BaseActivity() {
         val iv_board_image: CircleImageView = findViewById(R.id.iv_board_image)
 
         iv_board_image.setOnClickListener{
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED){
+
                 // TODO Show Image Chooser
                 Constants.showImageChooser(this)
-            }else{
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    Constants.READ_STORAGE_PERMISSION_CODE
-                )
-            }
         }
 
         val btn_create : Button = findViewById(R.id.btn_create)
@@ -74,6 +78,7 @@ class CreateBoardActivity : BaseActivity() {
 
     }
 
+
     private fun createBoard(){
         val assignedUsersArrayList: ArrayList<String> = ArrayList()
         assignedUsersArrayList.add(getCurrentUserID())
@@ -82,9 +87,14 @@ class CreateBoardActivity : BaseActivity() {
         val board_name : String = et_board_name.text.toString()
 
         if(board_name.isNotEmpty()) {
+            //val ll : LinearLayout = findViewById(R.id.task_list_board_bg)
+
+            // Set default background image from drawable
+            val defaultBackgroundUri = Uri.parse("android.resource://${packageName}/drawable/ic_bg").toString()
             var board = Board(
                 et_board_name.text.toString(),
                 mBoardImageURL,
+                defaultBackgroundUri,
                 mUserName,
                 assignedUsersArrayList
             )
@@ -120,10 +130,12 @@ class CreateBoardActivity : BaseActivity() {
                     mBoardImageURL = uri.toString()
 
                     hideProgressDialog()
+
                     // TODO UpdateUserProfileData
                     createBoard()
 
                 }
+
             }.addOnFailureListener { exception ->
                 Toast.makeText(
                     this,
@@ -135,7 +147,9 @@ class CreateBoardActivity : BaseActivity() {
             }
         }
 
+
     }
+
 
     fun boardCreatedSuccessfully(){
         hideProgressDialog()
@@ -184,7 +198,7 @@ class CreateBoardActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK && requestCode == Constants.PICK_IMAGE_REQUEST_CODE && data!!.data!=null){
-            var mSelectedImageFileUri = data.data
+            mSelectedImageFileUri = data.data
 
             try {
                 val iv_board_image: CircleImageView = findViewById(R.id.iv_board_image)
@@ -199,5 +213,13 @@ class CreateBoardActivity : BaseActivity() {
                 e.printStackTrace()
             }
         }
+
+
+    }
+
+
+
+    companion object {
+        const val PICK_IMAGE_REQUEST = 1
     }
 }

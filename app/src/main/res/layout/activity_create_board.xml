@@ -50,7 +50,9 @@
                     android:layout_width="@dimen/board_image_size"
                     android:layout_height="@dimen/board_image_size"
                     android:contentDescription="@string/image_contentDescription"
-                    android:src="@drawable/ic_board_place_holder"/>
+                    android:src="@drawable/ic_board_place_holder"
+                    app:civ_border_color="@android:color/black"
+                    app:civ_border_width="0.5dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -65,6 +67,44 @@
                         android:inputType="text"
                         android:textSize="@dimen/et_text_size"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:layout_marginTop="@dimen/create_board_til_marginTop">-->
+
+<!--                    <Button-->
+<!--                        android:id="@+id/btn_select_board_background"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:text="@string/select_board_background"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:background="@color/divider_color"-->
+<!--                        android:paddingTop="@dimen/btn_paddingTopBottom"-->
+<!--                        android:paddingBottom="@dimen/btn_paddingTopBottom"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="16sp"-->
+<!--                        />-->
+
+<!--                    &lt;!&ndash; board background preview ImageView &ndash;&gt;-->
+<!--                    <ImageView-->
+<!--                        android:id="@+id/board_bg_preview_image"-->
+<!--                        android:layout_width="45dp"-->
+<!--                        android:layout_height="45dp"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:background="@drawable/bluebg"-->
+<!--                        android:scaleType="centerCrop"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:src="@drawable/board_bg_image_preview"-->
+<!--                        android:visibility="gone"-->
+<!--                        tools:visibility="visible"-->
+<!--                       />-->
+<!--                </LinearLayout>-->
+
 
                 <Button
                     android:id="@+id/btn_create"

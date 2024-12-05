@@ -11,5 +11,10 @@
             android:id="@+id/nav_sign_out"
             android:icon="@drawable/nav_sign_out"
             android:title="@string/nav_sign_out"/>
+
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/baseline_settings_24"
+            android:title="Settings"/>
     </group>
 </menu>

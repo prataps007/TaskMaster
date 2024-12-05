@@ -2,6 +2,7 @@ package com.example.trelloclone.firebase
 
 import android.app.Activity
 import android.util.Log
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.example.trelloclone.activities.*
 import com.example.trelloclone.models.Board
@@ -30,6 +31,9 @@ class FireStoreClass {
     }
 
     fun createBoard(activity:CreateBoardActivity, board: Board){
+        //val boardListHashMap=HashMap<String,Any>()
+
+
         mFireStore.collection(Constants.BOARDS)
             .document()
             .set(board, SetOptions.merge())
@@ -38,6 +42,7 @@ class FireStoreClass {
 
                 Toast.makeText(activity,
                 "Board created successfully.",Toast.LENGTH_SHORT).show()
+
                 activity.boardCreatedSuccessfully()
             }.addOnFailureListener{
                 exception ->
@@ -65,6 +70,63 @@ class FireStoreClass {
             .addOnFailureListener { exception ->
                 activity.hideProgressDialog()
                 Log.e(activity.javaClass.simpleName, "Error deleting board", exception)
+            }
+    }
+
+    //*********** for long press leave-> board
+    fun leaveBoard(activity: MainActivity, board: Board) {
+        // Remove the user ID from the assignedTo list of the board
+
+
+        val currentUserId = getCurrentUserId()
+        board.assignedTo.remove(currentUserId)
+
+        val updates = hashMapOf<String, Any>(
+            Constants.ASSIGNED_TO to board.assignedTo
+        )
+
+        // Update the board in Firestore
+        mFireStore.collection(Constants.BOARDS)
+            .document(board.documentId)
+            .update(updates)
+            .addOnSuccessListener {
+                // Fetch the user who left
+                mFireStore.collection(Constants.USERS)
+                    .document(currentUserId)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        val user = document.toObject(User::class.java)
+                        if (user != null) {
+
+                            // Fetch remaining members and send notifications
+                            mFireStore.collection(Constants.USERS)
+                                .whereIn(Constants.ID, board.assignedTo)
+                                .get()
+                                .addOnSuccessListener { document ->
+                                    val usersList: ArrayList<User> = ArrayList()
+
+                                    for (i in document.documents) {
+                                        val member = i.toObject(User::class.java)!!
+                                        usersList.add(member)
+                                    }
+
+                                    activity.leaveMembershipSuccess(board, user, usersList)
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.e(activity.javaClass.simpleName, "Error fetching board members", e)
+                                    activity.hideProgressDialog()
+                                }
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e(activity.javaClass.simpleName, "Error fetching user", e)
+                        activity.hideProgressDialog()
+                    }
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error leaving board membership", e)
+                // You can show an error message or handle the failure accordingly
             }
     }
 
@@ -185,8 +247,6 @@ class FireStoreClass {
                     }
                 }
 
-//                if(loggedInUser != null)
-//                    activity.signInSuccess(loggedInUser)
             }.addOnFailureListener{
                     e->
                 when(activity){
@@ -258,6 +318,10 @@ class FireStoreClass {
                 else if(activity is TaskListActivity){
                     activity.boardMembersDetailsList(usersList)
                 }
+//                else if(activity is MainActivity){
+//                    // redirect it to part where notification will be sent to other members
+//                    activity.boardMembersFetched(usersList)
+//                }
             }
             .addOnFailureListener{
                 e->

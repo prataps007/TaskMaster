@@ -47,6 +47,10 @@ object Constants {
     const val FCM_KEY_DATA : String = "data"
     const val FCM_KEY_TO : String = "to"
 
+    const val BACKGROUND_IMAGE : String = "background"
+
+    const val BOARD_BACKGROUND_IMAGE_URI = "board_background_image_uri"
+
     fun showImageChooser(activity : Activity){
         var galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
 

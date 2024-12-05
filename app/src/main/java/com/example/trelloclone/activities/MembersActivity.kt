@@ -156,6 +156,7 @@ class MembersActivity : BaseActivity() {
         SendNotificationToUserAsyncTask(mBoardDetails.name, user.fcmToken).execute()
     }
 
+
     private inner class SendNotificationToUserAsyncTask(val boardName : String, val token : String) : AsyncTask<Any,Void,String>(){
 
         override fun onPreExecute() {
@@ -187,6 +188,7 @@ class MembersActivity : BaseActivity() {
                 val wr = DataOutputStream(connection.outputStream)
                 val jsonRequest = JSONObject()
                 val dataObject = JSONObject()
+
                 dataObject.put(Constants.FCM_KEY_TITLE,"Assigned to the board $boardName")
                 dataObject.put(Constants.FCM_KEY_MESSAGE,"You have been assigned to the Board by ${mAssignedMembersList[0].name}")
 

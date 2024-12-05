@@ -22,12 +22,16 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
+<!--     apply board background here-->
+
+<!--    android:background="@drawable/ic_bg"-->
+
         <LinearLayout
+            android:id="@+id/task_list_board_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
+            android:background="@drawable/ic_bg"
             android:padding="@dimen/task_list_content_padding">
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_task_list"
                 android:layout_width="match_parent"
